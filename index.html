@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVD Driving Test Kerala (Online Practice)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Noto Sans Malayalam', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+        .header {
+            background-color: #dc3545;
+            color: white;
+            padding: 15px;
+            margin: -30px -30px 20px -30px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        /* Input and Button Styles */
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: 'Noto Sans Malayalam', sans-serif;
+        }
+        .main-button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        /* Test Window Styles */
+        .question-box {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+        }
+        #current-question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .option-button {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
+            font-family: 'Noto Sans Malayalam', sans-serif;
+        }
+        .option-button:hover {
+            background-color: #e9ecef;
+            border-color: #007bff;
+        }
+        .option-button strong {
+            margin-right: 10px;
+            color: #007bff;
+        }
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .timer-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Image Display */
+        #question-image {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Result Window Styles */
+        #result-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        #final-score {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none;
+        }
+        .lang-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+        .lang-toggle:hover {
+            background-color: #5a6268;
+        }
+
+        /* Footer for Key Input Info */
+        .footer-info {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .key-info {
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 6px;
+            }
+            .header {
+                font-size: 1.2rem;
+                margin: -20px -20px 15px -20px;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="lang-toggle" onclick="toggleLanguage()">English / മലയാളം</button>
+
+    <div class="container">
+        <div id="front-page" class="window hidden">
+            <div class="header" data-ml="കേരള മോട്ടോർ വാഹന വകുപ്പ്" data-en="KERALA MOTOR VEHICLES DEPARTMENT">കേരള മോട്ടോർ വാഹന വകുപ്പ്</div>
+            <h2>Driving Test Practice (Mock Exam)</h2>
+            <p data-ml="നിങ്ങളുടെ ലേണേഴ്‌സ് ലൈസൻസ് ടെസ്റ്റ് പരിശീലിക്കുന്നതിന് താഴെയുള്ള ബട്ടൺ ഉപയോഗിക്കുക. പരിശീലനം ആരംഭിക്കുന്നതിന് മുമ്പ് നിങ്ങളുടെ ലോഗിൻ കോഡ് ഉപയോഗിച്ച് ആക്ടിവേറ്റ് ചെയ്യുക." data-en="Use the button below to practice for your Learner's License Test. Activate with your Login Code before starting the practice.">നിങ്ങളുടെ ലേണേഴ്‌സ് ലൈസൻസ് ടെസ്റ്റ് പരിശീലിക്കുന്നതിന് താഴെയുള്ള ബട്ടൺ ഉപയോഗിക്കുക. പരിശീലനം ആരംഭിക്കുന്നതിന് മുമ്പ് നിങ്ങളുടെ ലോഗിൻ കോഡ് ഉപയോഗിച്ച് ആക്ടിവേറ്റ് ചെയ്യുക.</p>
+            <button class="main-button" onclick="showActivationWindow()" data-ml="പരിശീലനം തുടങ്ങുക" data-en="Start Practice">പരിശീലനം തുടങ്ങുക</button>
+        </div>
+
+        <div id="activation-window" class="window hidden">
+            <div class="header" data-ml="ആക്ടിവേഷൻ കോഡ് നൽകുക" data-en="Enter Activation Code">ആക്ടിവേഷൻ കോഡ് നൽകുക</div>
+            <label for="activation-code" data-ml="ലോഗിൻ കോഡ് (Login Code):" data-en="Login Code (Login Code):">ലോഗിൻ കോഡ് (Login Code):</label>
+            <input type="password" id="activation-code" placeholder="കോഡ് ഇവിടെ നൽകുക" required>
+            <button class="main-button" onclick="checkActivationCode()" data-ml="തുടരുക" data-en="Continue">തുടരുക</button>
+            <p id="activation-error" class="error-message hidden" data-ml="കോഡ് തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക." data-en="Incorrect code. Please try again.">കോഡ് തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക.</p>
+        </div>
+        
+        <div id="unauthorized-container" class="window hidden">
+            <div class="header">🚫 നിയമലംഘനം 🚫</div>
+            <h2 style="color: #dc3545;">⚠️ കടുപ്പമേറിയ ലൈസൻസ് ചെക്ക് പരാജയപ്പെട്ടു</h2>
+            <p data-ml="നിങ്ങളുടെ കോഡിൽ മാറ്റങ്ങൾ വരുത്തിയതായി കാണുന്നു. ഈ പ്രോഗ്രാം ഉപയോഗിക്കുന്നതിന് മുമ്പ് കോഡ് കൃത്യമാണെന്ന് ഉറപ്പുവരുത്തുക." data-en="Changes have been detected in your code. Ensure the code is correct before using this program.">നിങ്ങളുടെ കോഡിൽ മാറ്റങ്ങൾ വരുത്തിയതായി കാണുന്നു. ഈ പ്രോഗ്രാം ഉപയോഗിക്കുന്നതിന് മുമ്പ് കോഡ് കൃത്യമാണെന്ന് ഉറപ്പുവരുത്തുക.</p>
+        </div>
+
+
+        <div id="user-details-window" class="window hidden">
+            <div class="header" data-ml="വിവരങ്ങൾ നൽകുക" data-en="Enter Details">വിവരങ്ങൾ നൽകുക</div>
+            <label for="user-name" data-ml="നിങ്ങളുടെ പേര്:" data-en="Your Name:">നിങ്ങളുടെ പേര്:</label>
+            <input type="text" id="user-name" placeholder="നിങ്ങളുടെ പേര്" required>
+            <button class="main-button" onclick="startExamFlow()" data-ml="പരീക്ഷ ആരംഭിക്കുക" data-en="Start Exam">പരീക്ഷ ആരംഭിക്കുക</button>
+        </div>
+
+        <div id="test-window" class="window hidden">
+            <div class="header" data-ml="ലേണേഴ്‌സ് പരീക്ഷ" data-en="Learner's Exam">ലേണേഴ്‌സ് പരീക്ഷ</div>
+            <div class="timer-label" data-ml="സമയം ബാക്കി" data-en="Time Remaining">സമയം ബാക്കി</div>
+            <div class="timer-display"><span id="timer">30</span>s</div>
+            
+            <div class="question-box">
+                <p id="question-number" style="color: #007bff; font-weight: 700;">ചോദ്യം 1 / 30</p>
+                <img id="question-image" class="hidden" alt="Traffic Sign">
+                <p id="current-question">ചോദ്യം ഇവിടെ വരും?</p>
+            </div>
+            
+            <div id="options-container">
+                </div>
+            <div class="footer-info">
+                <p data-ml="കീബോർഡ് ഉപയോഗിക്കുന്നവർക്ക്:" data-en="For Keyboard Users:">കീബോർഡ് ഉപയോഗിക്കുന്നവർക്ക്:
+                    <span class="key-info" data-ml="ഉത്തരം തിരഞ്ഞെടുക്കാൻ 1, 2, 3, അല്ലെങ്കിൽ 4 അമർത്തുക." data-en="Press 1, 2, 3, or 4 to select the answer.">ഉത്തരം തിരഞ്ഞെടുക്കാൻ 1, 2, 3, അല്ലെങ്കിൽ 4 അമർത്തുക.</span>
+                </p>
+            </div>
+        </div>
+
+        <div id="result-window" class="window hidden">
+            <div class="header" data-ml="പരീക്ഷാ ഫലം" data-en="Exam Result">പരീക്ഷാ ഫലം</div>
+            <p id="result-message"></p>
+            <p id="final-score"></p>
+            <button class="main-button" onclick="location.reload()" data-ml="വീണ്ടും പരീക്ഷിക്കുക" data-en="Try Again">വീണ്ടും പരീക്ഷിക്കുക</button>
+        </div>
+    </div>
+
+    <script>
+        // ******************************************************
+        //             🔒 ആക്ടിവേഷൻ കോഡ് ചെക്ക് ലോജിക് (ലഘൂകരിച്ചത്) 🔒
+        // ******************************************************
+        
+        // 1. എളുപ്പത്തിൽ മാറ്റാൻ പാടില്ലാത്ത കോഡ് (ലോഗിൻ കോഡ്: vinayanbpillai)
+        const ORIGINAL_CODE_BASE = "vinayanbpillai";
+        
+        // 2. കടുപ്പമേറിയ SHA-256 ഹാഷ് ചെക്ക് ഒഴിവാക്കി, നേരിട്ടുള്ള താരതമ്യം മാത്രം മതിയാകും.
+        async function checkCodeIntegrity(inputCode) {
+            if (!inputCode) return false;
+
+            // നൽകിയ കോഡ് ORIGINAL_CODE_BASE-മായി പൊരുത്തപ്പെടുന്നുണ്ടോ എന്ന് മാത്രം പരിശോധിക്കുന്നു.
+            // SHA-256 ഹാഷിംഗ് ചെക്ക് പൂർണ്ണമായും ഒഴിവാക്കിയിരിക്കുന്നു.
+            return inputCode.toLowerCase().trim() === ORIGINAL_CODE_BASE.toLowerCase();
+        }
+
+        // ******************************************************
+        //                   ⚙️ മറ്റു കോഡുകൾ ⚙️
+        // ******************************************************
+
+        const LOCAL_STORAGE_KEY = "MVD_ACTIVATION_STATUS";
+        let isActivated = localStorage.getItem(LOCAL_STORAGE_KEY) === "TRUE";
+
+        let userName = "";
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let timerInterval;
+        let audioContext;
+        let consecutiveCorrectAnswers = 0;
+        let currentLang = 'ml'; // Default language
+
+        // --- Translations Dictionary ---
+        const translations = {
+            ml: {
+                question_label: "ചോദ്യം", of: " / ", fail_time: "സമയം കഴിഞ്ഞു! ഉത്തരം തെറ്റായി കണക്കാക്കുന്നു.",
+                fail_license: "ലോഗിൻ കോഡ് തെറ്റാണ്. ആക്ടിവേഷൻ പരാജയപ്പെട്ടു.",
+                pass_message: "താങ്കൾ പരീക്ഷയിൽ വിജയിച്ചിരിക്കുന്നു.", fail_message: "താങ്കൾ പരീക്ഷയിൽ പരാജയപ്പെട്ടിരിക്കുന്നു. വീണ്ടും ശ്രമിക്കുക.",
+                score_correct: "ശരി ഉത്തരങ്ങൾ", input_alert: "പേര് ശരിയായി നൽകുക.",
+                placeholder_name: "നിങ്ങളുടെ പേര്"
+            },
+            en: {
+                question_label: "Question", of: " / ", fail_time: "Time's up! Answer is considered incorrect.",
+                fail_license: "Incorrect Login Code. Activation failed.",
+                pass_message: "You have passed the exam.", fail_message: "You have failed the exam. Please try again.",
+                score_correct: "Correct Answers", input_alert: "Please enter your Name correctly.",
+                placeholder_name: "Your Name"
+            }
+        };
+
+        // --- MVD Questions Data (30 Questions) --- (Same as before, using images where available)
+        const allMvdQuestions = [
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["നിർത്തുക", "പ്രവേശനം ഇല്ല", "വഴി കൊടുക്കുക"], correct: "നിർത്തുക" }, en: { q: "What does this sign indicate?", options: ["STOP", "No Entry", "Give Way"], correct: "STOP" }, image: "stop.png" },
+            { ml: { q: "വാഹനം ഓടിക്കുമ്പോൾ മൊബൈൽ ഫോൺ ഉപയോഗിക്കാമോ?", options: ["ഉപയോഗിക്കാം", "ഹെഡ്‌സെറ്റ് ഉപയോഗിച്ച് ഉപയോഗിക്കാം", "പാടില്ല"], correct: "പാടില്ല" }, en: { q: "Is mobile phone use allowed while driving?", options: ["Yes", "Yes, with headset", "No"], correct: "No" } },
+            { ml: { q: "ലേണേഴ്സ് ലൈസൻസിന്റെ കാലാവധി എത്രയാണ്?", options: ["6 മാസം", "1 വർഷം", "3 മാസം"], correct: "6 മാസം" }, en: { q: "What is the validity of a Learner's License?", options: ["6 Months", "1 Year", "3 Months"], correct: "6 Months" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["ഹോൺ നിർബന്ധം", "ഹോൺ അടിക്കാൻ പാടില്ല", "ശബ്ദമുണ്ടാക്കരുത്"], correct: "ഹോൺ അടിക്കാൻ പാടില്ല" }, en: { q: "What does this sign indicate?", options: ["Horn Compulsory", "No Horn", "Do not make noise"], correct: "No Horn" }, image: "no_horn.png" },
+            { ml: { q: "അപകടമുണ്ടായാൽ ഉടൻ ചെയ്യേണ്ടത് എന്ത്?", options: ["പോലീസിൽ അറിയിക്കുക, പരിക്കേറ്റവർക്ക് വൈദ്യസഹായം നൽകുക", "സ്ഥലം വിടുക", "വാഹനം ഒതുക്കി നിർത്തുക"], correct: "പോലീസിൽ അറിയിക്കുക, പരിക്കേറ്റവർക്ക് വൈദ്യസഹായം നൽകുക" }, en: { q: "What to do immediately after an accident?", options: ["Inform police and give medical aid to injured", "Leave the spot", "Park the vehicle aside"], correct: "Inform police and give medical aid to injured" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["വലത്തോട്ട് തിരിയാം", "വലത്തോട്ട് തിരിയരുത്", "നേരെ പോകുക"], correct: "വലത്തോട്ട് തിരിയരുത്" }, en: { q: "What does this sign indicate?", options: ["Right turn allowed", "No Right Turn", "Go Straight"], correct: "No Right Turn" }, image: "no_right_turn.png" },
+            { ml: { q: "ഇൻ്റർസെക്ഷനുകളിൽ ഏത് വാഹനത്തിനാണ് മുൻഗണന?", options: ["വലതുവശത്ത് നിന്ന് വരുന്ന വാഹനത്തിന്", "ഇടതുവശത്ത് നിന്ന് വരുന്ന വാഹനത്തിന്", "ലൈറ്റ് വാഹനത്തിന്"], correct: "വലതുവശത്ത് നിന്ന് വരുന്ന വാഹനത്തിന്" }, en: { q: "Which vehicle has priority at intersections?", options: ["Vehicle from the right side", "Vehicle from the left side", "Light vehicle"], correct: "Vehicle from the right side" } },
+            { ml: { q: "പാർക്കിംഗ് നിരോധിച്ചിട്ടുള്ള സ്ഥലം?", options: ["ബസ് സ്റ്റോപ്പിൽ", "വീടിന്റെ മുറ്റത്ത്", "റോഡരികിൽ"], correct: "ബസ് സ്റ്റോപ്പിൽ" }, en: { q: "Where is parking prohibited?", options: ["At a Bus Stop", "In a house yard", "On the roadside"], correct: "At a Bus Stop" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["സ്കൂൾ സമീപം", "ആശുപത്രി സമീപം", "റെയിൽവേ ക്രോസിംഗ്"], correct: "സ്കൂൾ സമീപം" }, en: { q: "What does this sign indicate?", options: ["School Ahead", "Hospital Ahead", "Railway Crossing"], correct: "School Ahead" }, image: "school.png" },
+            { ml: { q: "വാഹനം ഓടിക്കുമ്പോൾ പാലിക്കേണ്ട വേഗത?", options: ["നിയമം അനുശാസിക്കുന്ന വേഗത", "റോഡിലെ ഗതാഗതമനുസരിച്ച്", "പരിധി നിശ്ചയിച്ചിട്ടില്ല"], correct: "നിയമം അനുശാസിക്കുന്ന വേഗത" }, en: { q: "What speed should be maintained while driving?", options: ["Speed prescribed by law", "Speed based on road traffic", "No limit defined"], correct: "Speed prescribed by law" } },
+            { ml: { q: "ട്രാഫിക് ലൈറ്റിൽ മഞ്ഞ ലൈറ്റ് കണ്ടാൽ?", options: ["വേഗത കൂട്ടുക", "നിർത്താൻ തയ്യാറെടുക്കുക", "പോവുക"], correct: "നിർത്താൻ തയ്യാറെടുക്കുക" }, en: { q: "What does a yellow light in a traffic signal mean?", options: ["Increase speed", "Prepare to stop", "Proceed"], correct: "Prepare to stop" } },
+            { ml: { q: "ലൈസൻസ് ഇല്ലാതെ വാഹനം ഓടിക്കുന്നത്?", options: ["കുറ്റകരമല്ല", "പിഴയടക്കണം", "കുറ്റകരമാണ്"], correct: "കുറ്റകരമാണ്" }, en: { q: "Driving a vehicle without a license is?", options: ["Not an offense", "Punishable with fine", "An offense"], correct: "An offense" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["വലത്തോട്ട് വളവ്", "ഇടത്തോട്ട് വളവ്", "ഇരുവശത്തും വളവ്"], correct: "വലത്തോട്ട് വളവ്" }, en: { q: "What does this sign indicate?", options: ["Right Hand Curve", "Left Hand Curve", "Curve on both sides"], correct: "Right Hand Curve" }, image: "right_bend.png" },
+            { ml: { q: "വാഹനത്തിൻ്റെ രജിസ്ട്രേഷൻ്റെ കാലാവധി എത്രയാണ്?", options: ["10 വർഷം", "15 വർഷം", "5 വർഷം"], correct: "15 വർഷം" }, en: { q: "What is the validity of a vehicle registration?", options: ["10 Years", "15 Years", "5 Years"], correct: "15 Years" } },
+            { ml: { q: "യു-ടേൺ എടുക്കാൻ പാടില്ലാത്ത സ്ഥലം?", options: ["പ്രധാന റോഡിൽ", "തിരക്കുള്ള കവലകളിൽ", "വളവുകളിൽ"], correct: "വളവുകളിൽ" }, en: { q: "Where is U-turn prohibited?", options: ["On the main road", "At busy intersections", "On curves/bends"], correct: "On curves/bends" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["മുന്നോട്ട് പോകാം", "മുന്നോട്ട് പോകരുത്", "നിർത്തുക"], correct: "മുന്നോട്ട് പോകരുത്" }, en: { q: "What does this sign indicate?", options: ["Go Forward", "No Entry", "Stop"], correct: "No Entry" }, image: "no_entry.png" },
+            { ml: { q: "ഇരുചക്ര വാഹനമോടിക്കുന്നവർ നിർബന്ധമായും ധരിക്കേണ്ടത്?", options: ["ഗ്ലൗസ്", "ജാക്കറ്റ്", "ഹെൽമെറ്റ്"], correct: "ഹെൽമെറ്റ്" }, en: { q: "What must two-wheeler riders compulsorily wear?", options: ["Gloves", "Jacket", "Helmet"], correct: "Helmet" } },
+            { ml: { q: "അപകടത്തിൽ പെട്ടാൽ പോലീസ് സ്റ്റേഷനിൽ എത്ര സമയത്തിനകം അറിയിക്കണം?", options: ["2 മണിക്കൂർ", "24 മണിക്കൂർ", "48 മണിക്കൂർ"], correct: "24 മണിക്കൂർ" }, en: { q: "In case of an accident, how soon should the police station be informed?", options: ["2 hours", "24 hours", "48 hours"], correct: "24 hours" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["ഓവർടേക്ക് ചെയ്യാം", "ഓവർടേക്ക് നിരോധിച്ചിരിക്കുന്നു", "ഓവർടേക്ക് നിർബന്ധം"], correct: "ഓവർടേക്ക് നിരോധിച്ചിരിക്കുന്നു" }, en: { q: "What does this sign indicate?", options: ["Overtaking is allowed", "No Overtaking", "Overtaking Compulsory"], correct: "No Overtaking" }, image: "no_overtaking.png" },
+            { ml: { q: "കാൽനടയാത്രക്കാർക്ക് വഴി കൊടുക്കേണ്ട സ്ഥലം?", options: ["പെഡസ്ട്രിയൻ ക്രോസിംഗിൽ", "റോഡിൽ എവിടെയും", "പാർക്കിംഗ് സ്ഥലങ്ങളിൽ"], correct: "പെഡസ്ട്രിയൻ ക്രോസിംഗിൽ" }, en: { q: "Where should right-of-way be given to pedestrians?", options: ["At a Pedestrian Crossing", "Anywhere on the road", "In parking areas"], correct: "At a Pedestrian Crossing" } },
+            { ml: { q: "മദ്യപിച്ച് വാഹനം ഓടിക്കുന്നതിനുള്ള പിഴ?", options: ["പിഴ ഇല്ല", "5000 രൂപ വരെ പിഴ", "10000 രൂപ വരെ പിഴ"], correct: "10000 രൂപ വരെ പിഴ" }, en: { q: "What is the penalty for drunk driving?", options: ["No fine", "Fine up to ₹5000", "Fine up to ₹10000"], correct: "Fine up to ₹10000" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["വലത്തോട്ട് പോകാം", "വലത്തോട്ട് പോകരുത്", "വലത്തോട്ട് പോകാൻ വഴിയില്ല"], correct: "വലത്തോട്ട് പോകാൻ വഴിയില്ല" }, en: { q: "What does this sign indicate?", options: ["Can go right", "No right turn", "No road to the right"], correct: "No road to the right" }, image: "no_road_right.png" },
+            { ml: { q: "എമർജൻസി വാഹനങ്ങൾക്ക് വഴി കൊടുക്കേണ്ടത്?", options: ["അപകടസമയത്ത് മാത്രം", "എപ്പോഴും", "തിരക്കില്ലാത്തപ്പോൾ"], correct: "എപ്പോഴും" }, en: { q: "When should way be given to emergency vehicles?", options: ["Only during an accident", "Always", "When there is no traffic"], correct: "Always" } },
+            { ml: { q: "മോട്ടോർ വാഹന നിയമം പ്രാബല്യത്തിൽ വന്ന വർഷം?", options: ["1988", "1956", "1999"], correct: "1988" }, en: { q: "In which year did the Motor Vehicles Act come into force?", options: ["1988", "1956", "1999"], correct: "1988" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["റെയിൽവേ ക്രോസിംഗ്", "ട്രെയിൻ സ്റ്റേഷൻ", "ഗേറ്റ് ഇല്ല"], correct: "റെയിൽവേ ക്രോസിംഗ്" }, en: { q: "What does this sign indicate?", options: ["Railway Crossing", "Train Station", "No Gate"], correct: "Railway Crossing" }, image: "railway.png" },
+            { ml: { q: "വാഹനങ്ങളുടെ പുക പരിശോധന സർട്ടിഫിക്കറ്റിൻ്റെ കാലാവധി?", options: ["3 മാസം", "6 മാസം", "1 വർഷം"], correct: "6 മാസം" }, en: { q: "What is the validity of a vehicle's PUC Certificate?", options: ["3 Months", "6 Months", "1 Year"], correct: "6 Months" } },
+            { ml: { q: "മുൻപിലുള്ള വാഹനത്തെ ഓവർടേക്ക് ചെയ്യേണ്ടത് ഏത് വശം വഴി?", options: ["ഇടത് വശം", "വലത് വശം", "രണ്ട് വശവും"], correct: "വലത് വശം" }, en: { q: "From which side should you overtake the vehicle ahead?", options: ["Left side", "Right side", "Both sides"], correct: "Right side" } },
+            { ml: { q: "ഈ ചിഹ്നം എന്തിനെ സൂചിപ്പിക്കുന്നു?", options: ["മിനിമം വേഗത 40", "മാക്സിമം വേഗത 40", "ശരാശരി വേഗത 40"], correct: "മാക്സിമം വേഗത 40" }, en: { q: "What does this sign indicate?", options: ["Minimum speed 40", "Maximum speed 40", "Average speed 40"], correct: "Maximum speed 40" }, image: "speed_40.png" },
+            { ml: { q: "സീറ്റ് ബെൽറ്റ് ധരിക്കുന്നത്?", options: ["നിർബന്ധമില്ല", "ഡ്രൈവർക്ക് മാത്രം", "ഡ്രൈവർക്കും മുൻ സീറ്റ് യാത്രക്കാർക്കും നിർബന്ധം"], correct: "ഡ്രൈവർക്കും മുൻ സീറ്റ് യാത്രക്കാർക്കും നിർബന്ധം" }, en: { q: "Wearing a seat belt is?", options: ["Not compulsory", "Compulsory only for the driver", "Compulsory for the driver and front seat passengers"], correct: "Compulsory for the driver and front seat passengers" } },
+            { ml: { q: "ലൈസൻസ് കൈവശം വെക്കാതെ വാഹനം ഓടിച്ചാൽ?", options: ["പിഴ നൽകണം", "ജയിൽ ശിക്ഷ", "ഒന്നും ചെയ്യേണ്ട"], correct: "പിഴ നൽകണം" }, en: { q: "If driving without carrying the license?", options: ["Penalty must be paid", "Imprisonment", "Nothing needs to be done"], correct: "Penalty must be paid" } }
+        ];
+
+        // --- DRM Check & Flow Control ---
+        function checkInitialActivation() {
+            if (!isActivated) {
+                document.getElementById('front-page').classList.remove('hidden');
+                document.getElementById('activation-window').classList.add('hidden'); // Initially hide activation if not needed
+            } else {
+                 // On load, if activated, re-check integrity and proceed to user details
+                 checkCodeIntegrity(ORIGINAL_CODE_BASE).then(valid => {
+                     if (!valid) {
+                         // Integrity check fails even if localStorage is TRUE - Code was modified, but we allow simple code check
+                         localStorage.removeItem(LOCAL_STORAGE_KEY);
+                         // Since we simplified the check, if this path is hit, it means something major was deleted.
+                         // But for simplicity, we will assume it's valid if localStorage says TRUE.
+                         showUserDetailsWindow();
+                     } else {
+                         showUserDetailsWindow();
+                     }
+                 });
+            }
+        }
+        
+        // Front Page Start Button leads here
+        function showActivationWindow() {
+            document.getElementById('front-page').classList.add('hidden');
+            document.getElementById('activation-window').classList.remove('hidden');
+            document.getElementById('activation-code').focus();
+        }
+
+        async function checkActivationCode() {
+            const codeInput = document.getElementById('activation-code');
+            const code = codeInput.value.trim();
+            const errorMsg = document.getElementById('activation-error');
+
+            const isCodeValid = await checkCodeIntegrity(code);
+
+            if (isCodeValid) {
+                isActivated = true;
+                localStorage.setItem(LOCAL_STORAGE_KEY, "TRUE");
+                errorMsg.classList.add('hidden');
+                showUserDetailsWindow();
+            } else {
+                // Invalid code
+                codeInput.value = ""; // Clear input
+                errorMsg.classList.remove('hidden');
+                // Only show the user input error for a genuinely wrong code input
+                errorMsg.innerText = currentLang === 'ml' ? "കോഡ് തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക." : "Incorrect code. Please try again.";
+            }
+        }
+
+        function showUserDetailsWindow() {
+            document.getElementById('activation-window').classList.add('hidden');
+            document.getElementById('front-page').classList.add('hidden');
+            document.getElementById('unauthorized-container').classList.add('hidden'); // Ensure DRM fail message is hidden
+            document.getElementById('user-details-window').classList.remove('hidden');
+            if (window.AudioContext && !audioContext) {
+                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function showUnauthorizedMessage() {
+            // Since we removed the hard check, this path should ideally not be hit.
+            // But if it is, show the error, or simply re-display the activation window.
+            document.querySelectorAll('.window').forEach(w => w.classList.add('hidden'));
+            document.getElementById('unauthorized-container').classList.remove('hidden');
+        }
+
+        // --- Core Flow Functions (Same as before) ---
+        function startExamFlow() {
+            userName = document.getElementById('user-name').value.trim();
+
+            if (userName === "") {
+                alert(currentLang === 'ml' ? translations.ml.input_alert : translations.en.input_alert);
+                return;
+            }
+
+            questions = allMvdQuestions.sort(() => 0.5 - Math.random());
+            
+            document.getElementById('user-details-window').classList.add('hidden');
+            document.getElementById('test-window').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            consecutiveCorrectAnswers = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= 30) {
+                showResult();
+                return;
+            }
+
+            // Check for immediate failure (5 consecutive wrong answers)
+            if (currentQuestionIndex >= 5 && (currentQuestionIndex - correctAnswers) >= 5) {
+                showResult(true);
+                return;
+            }
+
+            const qData = questions[currentQuestionIndex];
+            const qDataLang = qData[currentLang];
+            const optionsContainer = document.getElementById('options-container');
+
+            document.getElementById('question-number').innerText = `${translations[currentLang].question_label} ${currentQuestionIndex + 1} ${translations[currentLang].of} 30`;
+            document.getElementById('current-question').innerText = qDataLang.q;
+            
+            const qImage = document.getElementById('question-image');
+            // Ensure images are accessible and correctly named (e.g., stop.png, no_horn.png etc.)
+            if (qData.image) { qImage.src = qData.image; qImage.classList.remove('hidden'); } else { qImage.classList.add('hidden'); }
+
+            optionsContainer.innerHTML = '';
+            // Do NOT shuffle options here if you rely on 1, 2, 3, 4 keyboard input
+            const options = qDataLang.options;
+            
+            options.forEach((option, index) => {
+                const optionNumber = index + 1;
+                const button = document.createElement('button');
+                button.classList.add('option-button');
+                // Use the index as the option number for keyboard accessibility (1, 2, 3)
+                button.innerHTML = `<strong>${optionNumber}.</strong> ${option}`;
+                button.setAttribute('data-option-number', optionNumber);
+                button.onclick = () => checkAnswer(option, qDataLang.correct, button);
+                optionsContainer.appendChild(button);
+            });
+
+            startTimer(30, 'question');
+        }
+
+        function checkAnswer(selected, correct, buttonElement) {
+            clearInterval(timerInterval);
+            const isCorrect = selected === correct;
+            
+            // Highlight the selected button (correct or incorrect)
+            buttonElement.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            buttonElement.style.borderColor = isCorrect ? '#28a745' : '#dc3545';
+
+            // Find and highlight the correct answer if the selected was wrong
+            if (!isCorrect) {
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    if (btn.innerText.includes(correct)) {
+                        btn.style.backgroundColor = '#d1ecf1';
+                        btn.style.borderColor = '#17a2b8';
+                    }
+                });
+            }
+
+            if (isCorrect) { correctAnswers++; consecutiveCorrectAnswers++; playCorrectBeep(); }
+            else { consecutiveCorrectAnswers = 0; playIncorrectBeep(); }
+            currentQuestionIndex++;
+            
+            // Disable all options
+            document.querySelectorAll('.option-button').forEach(btn => btn.onclick = null);
+
+            setTimeout(loadQuestion, 1500); // Wait 1.5 seconds before loading next question
+        }
+
+        // --- Result Functions (Same as before) ---
+        function showResult(failedEarly = false) {
+            clearInterval(timerInterval);
+            document.getElementById('test-window').classList.add('hidden');
+            document.getElementById('result-window').classList.remove('hidden');
+
+            const score = correctAnswers;
+            const isPassed = score >= 18 && !failedEarly;
+
+            const resultMsgElement = document.getElementById('result-message');
+            const finalScoreElement = document.getElementById('final-score');
+            
+            if (failedEarly) {
+                resultMsgElement.innerText = currentLang === 'ml' ? `${userName}, നിങ്ങൾ പരീക്ഷയിൽ പരാജയപ്പെട്ടിരിക്കുന്നു. (5 തെറ്റുകൾ തുടർച്ചയായി.)` : `${userName}, You have failed the exam. (5 consecutive incorrect answers.)`;
+                resultMsgElement.style.color = '#dc3545';
+                finalScoreElement.innerText = currentLang === 'ml' ? `വിജയിക്കാൻ: 18 ശരി ഉത്തരങ്ങൾ. നിങ്ങളുടെ സ്കോർ: ${score}` : `Required to Pass: 18 Correct Answers. Your Score: ${score}`;
+            } else if (isPassed) {
+                resultMsgElement.innerText = currentLang === 'ml' ? `${userName}, ${translations.ml.pass_message}` : `${userName}, ${translations.en.pass_message}`;
+                resultMsgElement.style.color = '#28a745';
+                finalScoreElement.innerText = `${translations[currentLang].score_correct}: ${score} / 30`;
+            } else {
+                resultMsgElement.innerText = currentLang === 'ml' ? `${userName}, ${translations.ml.fail_message}` : `${userName}, ${translations.en.fail_message}`;
+                resultMsgElement.style.color = '#dc3545';
+                finalScoreElement.innerText = `${translations[currentLang].score_correct}: ${score} / 30. (വിജയിക്കാൻ: 18)`;
+            }
+        }
+        
+        // --- Timer, Beep Functions (Same as before) ---
+        function playBeep(frequency, duration, volume) {
+            if (!audioContext || audioContext.state === 'suspended') {
+                // Attempt to resume or create context on user action
+                if (audioContext && audioContext.resume) audioContext.resume();
+                if (!audioContext) return; 
+            }
+            const oscillator = audioContext.createOscillator(); const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode); gainNode.connect(audioContext.destination);
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + duration / 1000);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        function playCorrectBeep() { playBeep(880, 200, 0.5); }
+        function playIncorrectBeep() { playBeep(220, 400, 0.6); }
+        function playTimerBeep() { playBeep(440, 50, 0.2); }
+
+        function startTimer(duration, mode) {
+            let timeLeft = duration;
+            const timerDisplay = document.getElementById('timer');
+            clearInterval(timerInterval); timerDisplay.innerText = timeLeft.toString().padStart(2, '0');
+
+            timerInterval = setInterval(() => {
+                timeLeft--; timerDisplay.innerText = timeLeft.toString().padStart(2, '0');
+                if (timeLeft <= 10 && timeLeft > 0) { playTimerBeep(); }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (mode === 'question') {
+                        playIncorrectBeep(); consecutiveCorrectAnswers = 0; currentQuestionIndex++;
+                        alert(currentLang === 'ml' ? translations.ml.fail_time : translations.en.fail_time);
+                        setTimeout(loadQuestion, 1000);
+                    }
+                }
+            }, 1000);
+        }
+
+        // --- UI & Language Functions (Same as before) ---
+        function toggleLanguage() {
+            currentLang = (currentLang === 'ml' ? 'en' : 'ml');
+            updateUI();
+        }
+
+        function updateUI() {
+            document.querySelectorAll('[data-ml]').forEach(element => {
+                const text = element.getAttribute('data-' + currentLang);
+                if (text) { element.innerHTML = text; }
+            });
+            document.getElementById('user-name').placeholder = currentLang === 'ml' ? translations.ml.placeholder_name : translations.en.placeholder_name;
+            document.getElementById('activation-code').placeholder = currentLang === 'ml' ? "കോഡ് ഇവിടെ നൽകുക" : "Enter Code Here";
+
+            const errorMsg = document.getElementById('activation-error');
+            if (!errorMsg.classList.contains('hidden')) {
+                 errorMsg.innerText = currentLang === 'ml' ? "കോഡ് തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക." : "Incorrect code. Please try again.";
+            }
+            
+            // Re-load question text and options if on test window
+            if (!document.getElementById('test-window').classList.contains('hidden')) { 
+                // Only reload if questions array is populated, otherwise it causes error
+                if (questions.length > 0 && currentQuestionIndex < 30) {
+                     loadQuestion();
+                }
+            }
+        }
+        
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', updateUI);
+        document.addEventListener('DOMContentLoaded', checkInitialActivation); // Start the flow here
+
+        document.getElementById('activation-code').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                checkActivationCode();
+            }
+        });
+        
+        document.getElementById('user-name').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                startExamFlow();
+            }
+        });
+
+
+        // Keyboard support for test window (1, 2, 3, 4)
+        function handleKeyboardInput(event) {
+            if (document.getElementById('test-window').classList.contains('hidden')) { return; }
+
+            const key = event.key;
+            if (key >= '1' && key <= '4') {
+                const selectedOptionNumber = parseInt(key);
+                const optionButtons = document.querySelectorAll('.option-button');
+                let selectedButton = null;
+
+                optionButtons.forEach(button => {
+                    // Match the data-option-number attribute
+                    if (parseInt(button.getAttribute('data-option-number')) === selectedOptionNumber) {
+                        selectedButton = button;
+                    }
+                });
+
+                // Only click if the button is currently enabled (has an onclick function)
+                if (selectedButton && selectedButton.onclick) { 
+                    selectedButton.click(); 
+                }
+            }
+        }
+        document.addEventListener('keydown', handleKeyboardInput);
+
+    </script>
+</body>
+</html>
